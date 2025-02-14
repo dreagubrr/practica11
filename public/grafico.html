@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico de Cursos y Alumnos</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>Dashboard de Cursos</h1>
+        
+        <div class="chart-container">
+            <div class="chart-card">
+                <h2>Distribución de Alumnos por Curso</h2>
+                <canvas id="donutChart"></canvas>
+            </div>
+            
+            <div class="chart-card">
+                <h2>Tendencia de Inscripciones</h2>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Total Alumnos</h3>
+                <p class="stat-number" id="totalAlumnos">-</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Cursos</h3>
+                <p class="stat-number" id="totalCursos">-</p>
+            </div>
+            <div class="stat-card">
+                <h3>Promedio por Curso</h3>
+                <p class="stat-number" id="promedio">-</p>
+            </div>
+        </div>
+
+        <nav class="dashboard-nav">
+            <button onclick="window.location.href='index.html'">🏠 Inicio</button>
+            <button onclick="window.location.href='cambiarCurso.html'">✏️ Editar Cursos</button>
+        </nav>
+    </div>
+
+    <script>
+        
+        function generateColors(count) {
+            const colors = [];
+            const baseHue = 210; 
+            
+            for (let i = 0; i < count; i++) {
+                const hue = (baseHue + (i * 360 / count)) % 360;
+                colors.push(`hsla(${hue}, 70%, 60%, 0.8)`);
+            }
+            return colors;
+        }
+
+       
+        const animationConfig = {
+            duration: 1000,
+            easing: 'easeOutQuart'
+        };
+
+        async function initializeCharts() {
+            try {
+                const response = await fetch('/api/grafico');
+                const data = await response.json();
+                
+               
+                document.getElementById('totalAlumnos').textContent = 
+                    data.reduce((sum, item) => sum + item.totalAlumnos, 0);
+                document.getElementById('totalCursos').textContent = data.length;
+                document.getElementById('promedio').textContent = 
+                    Math.round(data.reduce((sum, item) => sum + item.totalAlumnos, 0) / data.length);
+
+                
+                const labels = data.map(item => item.nombreCurso);
+                const values = data.map(item => item.totalAlumnos);
+                const colors = generateColors(data.length);
+
+               
+                new Chart(document.getElementById('donutChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: colors,
+                            borderWidth: 2,
+                            borderColor: 'var(--background)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    color: 'var(--text)',
+                                    padding: 20
+                                }
+                            }
+                        },
+                        animation: animationConfig
+                    }
+                });
+
+               
+                new Chart(document.getElementById('lineChart'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Alumnos',
+                            data: values,
+                            borderColor: 'var(--primary)',
+                            backgroundColor: 'rgba(0, 122, 255, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: 'var(--text)'
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'var(--border)'
+                                },
+                                ticks: {
+                                    color: 'var(--text)'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    color: 'var(--border)'
+                                },
+                                ticks: {
+                                    color: 'var(--text)'
+                                }
+                            }
+                        },
+                        animation: animationConfig
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error cargando datos:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeCharts);
+    </script>
+</body>
+</html>

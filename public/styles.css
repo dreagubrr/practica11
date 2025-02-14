@@ -1,0 +1,308 @@
+:root {
+    --primary: hsl(210, 100%, 50%);
+    --primary-hover: hsl(210, 100%, 45%);
+    --background: hsl(0, 0%, 100%);
+    --surface: hsl(0, 0%, 98%);
+    --text: hsl(0, 0%, 20%);
+    --text-muted: hsl(0, 0%, 40%);
+    --border: hsl(0, 0%, 90%);
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --radius: 0.5rem;
+    --transition: 0.2s ease;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--background);
+    padding: clamp(1rem, 5vw, 3rem);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    margin-bottom: 2rem;
+    color: var(--primary);
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    transition: border-color var(--transition);
+    margin-bottom: 1rem;
+  }
+  
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+  }
+  
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  button:hover {
+    background: var(--primary-hover);
+  }
+  
+  section {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: var(--radius);
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+  }
+  
+  #buscar-curso {
+    display: grid;
+    gap: 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    #buscar-curso {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+  
+    #buscar-curso label {
+      grid-column: 1 / -1;
+    }
+  }
+  
+  #cursoForm {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    #cursoForm {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  
+    #cursoForm textarea {
+      grid-column: 1 / -1;
+    }
+  
+    #cursoForm button[type="submit"] {
+      grid-column: 1 / -1;
+      justify-self: center;
+    }
+  }
+
+  #navegacion,
+  #menu-navegacion {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  #lista-alumnos {
+    list-style: none;
+    display: grid;
+    gap: 1rem;
+  }
+  
+  #lista-alumnos li {
+    background: var(--background);
+    padding: 1rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    transition: transform var(--transition);
+  }
+  
+  #lista-alumnos li:hover {
+    transform: translateY(-2px);
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  section,
+  form {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: hsl(220, 20%, 10%);
+      --surface: hsl(220, 20%, 15%);
+      --text: hsl(0, 0%, 90%);
+      --text-muted: hsl(0, 0%, 70%);
+      --border: hsl(220, 20%, 20%);
+      --shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .dashboard {
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      
+      .chart-container {
+        display: grid;
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+      
+      @media (min-width: 1024px) {
+        .chart-container {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      
+      .chart-card {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .chart-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--primary);
+        opacity: 0.5;
+      }
+      
+      .chart-card h2 {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+        color: var(--text);
+      }
+      
+      .stats-container {
+        display: grid;
+        gap: 1rem;
+        margin: 2rem 0;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+      
+      .stat-card {
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition: transform var(--transition);
+      }
+      
+      .stat-card:hover {
+        transform: translateY(-5px);
+      }
+      
+      .stat-card h3 {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+      }
+      
+      .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary);
+        line-height: 1;
+      }
+      
+      .dashboard-nav {
+        margin-top: 2rem;
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+      
+      canvas {
+        width: 100% !important;
+        height: 300px !important;
+      }
+      
+      .chart-card,
+      .stat-card {
+        animation: slideUp 0.5s ease-out forwards;
+        opacity: 0;
+      }
+      
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      
+      .stat-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .stat-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .stat-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+  }
+  
+  

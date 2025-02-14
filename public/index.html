@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Alumnos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <h1 id="titulo">Gestión de Alumnos por Curso</h1>
+
+    <label for="cursoId">Ingrese el ID del Curso:</label>
+    <input type="number" id="cursoId" placeholder="Ejemplo: 1">
+    <button onclick="obtenerAlumnos(document.getElementById('cursoId').value)">Mostrar Alumnos</button>
+
+    <section>
+        <h2>Lista de Estudiantes</h2>
+        <ul id="lista-alumnos"></ul>
+    </section>
+
+    <nav id="menu-navegacion">
+        <button onclick="window.location.href='grafico.html'">📊 Ver Datos</button>
+        <button onclick="window.location.href='cambiarCurso.html'">✏️ Editar Curso</button>
+    </nav>
+
+</body>
+<script src="./js/script.js"></script>
+</html>
